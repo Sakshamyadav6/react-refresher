@@ -6,6 +6,7 @@ const Home = () => {
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [todotoedit, setTodoToEdit] = useState("");
 
   const handleAdd = (e) => {
     e.preventDefault();
@@ -33,9 +34,16 @@ const Home = () => {
     setTodos(updatedTodos);
   };
 
-  const handleEdit = (id) => {
-    console.log(id);
+  const handleEdit = (todo) => {
     setShowModal(true);
+    setTodoToEdit(todo);
+  };
+
+  const handleUpdate = (id, updatedtodo) => {
+    const updatedTodo = todos.map((todo) => {
+      return todo.id === id ? { ...todo, todo: updatedtodo } : todo;
+    });
+    setTodos(updatedTodo);
   };
   return (
     <>
@@ -85,7 +93,7 @@ const Home = () => {
                       variant="warning"
                       className="ms-2"
                       onClick={() => {
-                        handleEdit(todo.id);
+                        handleEdit(todo);
                       }}
                     >
                       Edit
@@ -106,7 +114,12 @@ const Home = () => {
           );
         })}
       </div>
-      <EditModal showModal={showModal} setShowModal={setShowModal} />
+      <EditModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        todotoedit={todotoedit}
+        handleUpdate={handleUpdate}
+      />
     </>
   );
 };
