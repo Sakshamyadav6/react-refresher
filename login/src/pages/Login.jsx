@@ -7,13 +7,25 @@ import {
   Form,
   Row,
 } from "react-bootstrap";
+import { default as axios } from "axios";
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [username, setusername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(email, password);
+
+    try {
+      const response = await axios("http://localhost:3100/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        data: { username: username, password },
+        withCredentials: true,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
@@ -25,14 +37,14 @@ const Login = () => {
         <Form className="mt-4" onSubmit={handleLogin}>
           <FloatingLabel
             controlId="floatingInput"
-            label="Enter Email"
+            label="Enter Username"
             className="m-1"
           >
             <Form.Control
-              type="email"
-              placeholder="Enter Email"
+              type="text"
+              placeholder="Enter username"
               onChange={(e) => {
-                setEmail(e.target.value);
+                setusername(e.target.value);
               }}
             />
           </FloatingLabel>
