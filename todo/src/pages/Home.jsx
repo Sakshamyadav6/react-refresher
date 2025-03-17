@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
+import EditModal from "../components/EditModal";
 
 const Home = () => {
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const handleAdd = (e) => {
     e.preventDefault();
@@ -29,6 +31,11 @@ const Home = () => {
       return todo.id == id ? { ...todo, status: !todo.status } : todo;
     });
     setTodos(updatedTodos);
+  };
+
+  const handleEdit = (id) => {
+    console.log(id);
+    setShowModal(true);
   };
   return (
     <>
@@ -74,7 +81,13 @@ const Home = () => {
                   </div>
 
                   <div className="right ms-auto">
-                    <Button variant="warning" className="ms-2">
+                    <Button
+                      variant="warning"
+                      className="ms-2"
+                      onClick={() => {
+                        handleEdit(todo.id);
+                      }}
+                    >
                       Edit
                     </Button>
                     <Button
@@ -93,6 +106,7 @@ const Home = () => {
           );
         })}
       </div>
+      <EditModal showModal={showModal} setShowModal={setShowModal} />
     </>
   );
 };
