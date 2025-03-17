@@ -8,7 +8,7 @@ const PORT = 3100;
 // Enable CORS with credentials for a specific origin (your frontend's origin)
 app.use(
   cors({
-    origin: "http://localhost:5174", // Allow requests from the frontend origin
+    origin: "http://localhost:5173", // Allow requests from the frontend origin
     methods: "GET,POST", // Allow specific HTTP methods
     credentials: true, // Allow credentials (cookies, headers)
   })

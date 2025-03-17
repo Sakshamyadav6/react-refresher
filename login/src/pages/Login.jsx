@@ -8,6 +8,8 @@ import {
   Row,
 } from "react-bootstrap";
 import { default as axios } from "axios";
+import { errorToast, successToast } from "../services/toastify.service";
+
 const Login = () => {
   const [username, setusername] = useState("");
   const [password, setPassword] = useState("");
@@ -23,8 +25,10 @@ const Login = () => {
         withCredentials: true,
       });
       console.log(response);
+      successToast("Loggedin Sucessfully");
     } catch (error) {
       console.log(error);
+      errorToast(error.message);
     }
   };
   return (
