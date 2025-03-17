@@ -10,13 +10,25 @@ const Home = () => {
     const todoList = {
       todo: todo,
       id: Date.now(),
-      completed: false,
+      status: false,
     };
     // console.log(todo);
     console.log(todoList);
     setTodos([...todos, todoList]);
 
     setTodo("");
+  };
+  const handleDelete = (id) => {
+    const todolist = todos.filter((todo) => {
+      return todo.id !== id;
+    });
+    setTodos(todolist);
+  };
+  const handleCheckbox = (id) => {
+    const updatedTodos = todos.map((todo) => {
+      return todo.id == id ? { ...todo, status: !todo.status } : todo;
+    });
+    setTodos(updatedTodos);
   };
   return (
     <>
@@ -41,19 +53,37 @@ const Home = () => {
       <div className="todo">
         {todos.map((todo) => {
           return (
-            <ul className="list-group m-auto w-50">
+            <ul className="list-group m-auto w-50" key={todo.id}>
               <div>
-                <li className="list-group-item mt-2 d-flex rounded" key={todo.id}>
+                <li className="list-group-item mt-2 d-flex rounded">
                   <div className="left mt-2">
-                    <input type="checkbox" className="me-2" />
-                    <span>{todo.todo}</span>
+                    <input
+                      type="checkbox"
+                      className="me-2"
+                      onClick={() => {
+                        handleCheckbox(todo.id);
+                      }}
+                    />
+                    <span
+                      className={
+                        todo.status ? "text-decoration-line-through" : "none"
+                      }
+                    >
+                      {todo.todo}
+                    </span>
                   </div>
 
                   <div className="right ms-auto">
                     <Button variant="warning" className="ms-2">
                       Edit
                     </Button>
-                    <Button variant="outline-danger" className="ms-2">
+                    <Button
+                      variant="outline-danger"
+                      className="ms-2"
+                      onClick={() => {
+                        handleDelete(todo.id);
+                      }}
+                    >
                       Delete
                     </Button>
                   </div>
