@@ -8,7 +8,7 @@ import {
   Button,
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { default as axios } from "axios";
+import axios from "axios";
 import { errorToast, successToast } from "../services/toastify.service";
 
 const Login = () => {
