@@ -40,7 +40,10 @@ const Login = () => {
   return (
     <>
       <Container className="d-flex justify-content-center align-items-center  vh-100">
-        <div className="w-100" style={{ maxWidth: "600px" }}>
+        <div
+          className="w-100"
+          style={{ maxWidth: "600px", marginLeft: "350px" }}
+        >
           <h1 className="mt-2">Login</h1>
 
           <Row>
