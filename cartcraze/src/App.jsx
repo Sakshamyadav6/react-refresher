@@ -8,6 +8,7 @@ import Product from "./pages/Product";
 import NavBar from "./components/Navbar";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
+import Counter from "./pages/Counter";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/product" element={<Product />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/count" element={<Counter />} />
       </Routes>
       <Toaster />
     </>

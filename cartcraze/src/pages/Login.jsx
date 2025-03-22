@@ -10,11 +10,14 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { errorToast, successToast } from "../services/toastify.service";
+import { useDispatch } from "react-redux";
+import { login } from "../slice/loginSlice";
 
 const Login = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -28,10 +31,25 @@ const Login = () => {
         withCredentials: true,
       });
       console.log(response);
-      successToast("Logged in Sucessfully");
+      if (response.data.accessToken) {
+        const data = {
+          accessToken: response.data.accessToken,
+          email: response.data.email,
+          username: response.data.username,
+          firstName: response.data.firstName,
+          lastName: response.data.lastName,
+          gender: response.data.gender,
+          image: response.data.image,
+          refreshToken: response.data.refreshToken,
+        };
+        dispatch(login(data));
+        successToast(`Welcome ${response.data.username}`);
+        // navigate("/product");
+      } else {
+        errorToast(response.data.message);
+      }
       setUserName("");
       setPassword("");
-      navigate("/product");
     } catch (error) {
       console.log(error);
       errorToast(error.message);
