@@ -12,7 +12,7 @@ const Product = () => {
 
   const getProduct = async (e) => {
     try {
-      const response = await axios.get(import.meta.env.VITE_URL);
+      const response = await axios.get(import.meta.env.VITE_URL + "/products");
       console.log(response.data.products);
       setProduct(response.data.products);
       setOriginalProd(response.data.products);

@@ -8,10 +8,10 @@ const Rating = ({ value }) => {
           <i
             className={
               value >= 1
-                ? "fa-solid fa-star"
+                ? "fa-sharp fa-solid fa-star"
                 : value >= 0.5
                 ? "fa-solid fa-star-half"
-                : "none"
+                : " "
             }
           ></i>
           <i
@@ -20,16 +20,16 @@ const Rating = ({ value }) => {
                 ? "fa-solid fa-star"
                 : value >= 1.5
                 ? "fa-solid fa-star-half"
-                : "none"
+                : " "
             }
           ></i>
           <i
             className={
               value >= 3
-                ? "fa fa-solid fa-star"
+                ? "fa-solid fa-star"
                 : value >= 2.5
                 ? "fa-solid fa-star-half"
-                : "none"
+                : " "
             }
           ></i>
           <i
@@ -38,16 +38,16 @@ const Rating = ({ value }) => {
                 ? "fa-solid fa-star"
                 : value >= 3.5
                 ? "fa-solid fa-star-half"
-                : "none"
+                : " "
             }
           ></i>
           <i
             className={
               value >= 5
-                ? "fa-solif fa-star-half"
+                ? "fa-solid fa-star-half"
                 : value >= 4.5
-                ? "fa-solid fa-stat-half"
-                : "none"
+                ? "fa-solid fa-star-half"
+                : " "
             }
           ></i>
         </span>
