@@ -1,11 +1,22 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Col, Container, Row, Image, ListGroup } from "react-bootstrap";
+import {
+  Col,
+  Container,
+  Row,
+  Image,
+  ListGroup,
+  Form,
+  Button,
+} from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import { successToast } from "../services/toastify.service";
+import Rating from "../components/Rating";
 
 const ProductDetail = () => {
   const [prod, setProd] = useState(null);
   const { id } = useParams();
+  const [quantiy, setQuantity] = useState(1);
 
   const getProduct = async () => {
     try {
@@ -15,6 +26,10 @@ const ProductDetail = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+  const handleAddtoCart = (prod, quantity) => {
+    console.log(prod, quantity);
+    successToast(`${prod.title} Added to Cart`);
   };
   useEffect(() => {
     getProduct();
@@ -33,14 +48,17 @@ const ProductDetail = () => {
                   <ListGroup.Item className="fs-4 fw-bold">
                     {prod.title}
                   </ListGroup.Item>
-                  <ListGroup.Item>{prod.rating}</ListGroup.Item>
+                  <ListGroup.Item>
+                    <Rating value={prod.rating} />
+                    {prod.rating}
+                  </ListGroup.Item>
                   <ListGroup.Item className="fs-4">
                     <span className="fw-bold">Brand</span>: {prod.brand}
                   </ListGroup.Item>
                   <ListGroup.Item className="fs-4">
                     <span className="fw-bold">Category</span>: {prod.category}
                   </ListGroup.Item>
-                  <ListGroup.Item className="fs-6">
+                  <ListGroup.Item className="fs-6 text-justify">
                     {prod.description}
                   </ListGroup.Item>
                 </ListGroup>
@@ -58,6 +76,39 @@ const ProductDetail = () => {
                       <Col>Available</Col>
                       <Col>{prod.availabilityStatus}</Col>
                     </Row>
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Quantity:</Col>
+                      <Col>
+                        <Form.Select
+                          value={quantiy}
+                          onChange={(e) => {
+                            setQuantity(e.target.value);
+                          }}
+                        >
+                          <option>Select</option>
+                          {[...Array(prod.stock)].map((_, i) => {
+                            return (
+                              <option value={i + 1} key={i}>
+                                {i + 1}
+                              </option>
+                            );
+                          })}
+                        </Form.Select>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Button
+                      variant="warning"
+                      className="w-100"
+                      onClick={() => {
+                        handleAddtoCart(prod, quantiy);
+                      }}
+                    >
+                      Add to Cart
+                    </Button>
                   </ListGroup.Item>
                 </ListGroup>
               </Col>
