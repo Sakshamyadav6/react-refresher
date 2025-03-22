@@ -9,7 +9,7 @@ import {
   Form,
   Button,
 } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { successToast } from "../services/toastify.service";
 import Rating from "../components/Rating";
 
@@ -17,6 +17,7 @@ const ProductDetail = () => {
   const [prod, setProd] = useState(null);
   const { id } = useParams();
   const [quantiy, setQuantity] = useState(1);
+  const navigate = useNavigate();
 
   const getProduct = async () => {
     try {
@@ -30,6 +31,7 @@ const ProductDetail = () => {
   const handleAddtoCart = (prod, quantity) => {
     console.log(prod, quantity);
     successToast(`${prod.title} Added to Cart`);
+    navigate("/cart");
   };
   useEffect(() => {
     getProduct();
@@ -50,7 +52,6 @@ const ProductDetail = () => {
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <Rating value={prod.rating} />
-                    {prod.rating}
                   </ListGroup.Item>
                   <ListGroup.Item className="fs-4">
                     <span className="fw-bold">Brand</span>: {prod.brand}
