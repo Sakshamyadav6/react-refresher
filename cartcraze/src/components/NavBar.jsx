@@ -1,9 +1,21 @@
 import React from "react";
 import { Button, Container, Dropdown, Nav, Navbar } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../slice/loginSlice";
+import { successToast } from "../services/toastify.service";
+import { Link, useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const { isLoggedIn, username } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(logout());
+    successToast("Logged Out Sucessfully");
+    navigate("/");
+  };
 
   return (
     <>
@@ -27,13 +39,13 @@ const NavBar = () => {
                 <Dropdown>
                   <Dropdown.Toggle variant="info">{username}</Dropdown.Toggle>
                   <Dropdown.Menu>
-                    <Dropdown.Item>
-                      <i className="fa-solid fa-user"></i> Profile
+                    <Dropdown.Item href={`/user/profile/${username}`}>
+                      <i className="fa-solid fa-user"></i> Profile  
                     </Dropdown.Item>
                     <Dropdown.Item href="/cart">
                       <i className="fa-solid fa-cart-shopping"></i> Cart
                     </Dropdown.Item>
-                    <Dropdown.Item>
+                    <Dropdown.Item onClick={handleLogout}>
                       <i className="fa-solid fa-right-from-bracket"></i> Logout
                     </Dropdown.Item>
                     <Dropdown.Item>

@@ -1,18 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+const initialState = {
+  isLoggedIn: false,
+  accessToken: "",
+  email: "",
+  username: "",
+  firstName: "",
+  lastName: "",
+  gender: "",
+  image: "",
+  refreshToken: "",
+};
 export const loginSlice = createSlice({
   name: "login",
-  initialState: {
-    isLoggedIn: false,
-    accessToken: "",
-    email: "",
-    username: "",
-    firstName: "",
-    lastName: "",
-    gender: "",
-    image: "",
-    refreshToken: "",
-  },
+  initialState,
   reducers: {
     login: (state, action) => {
       console.log(action);
@@ -26,7 +26,18 @@ export const loginSlice = createSlice({
       state.image = action.payload.image;
       state.refreshToken = action.payload.refreshToken;
     },
+    logout: (state) => {
+      state.isLoggedIn = false;
+      state.accessToken = "";
+      state.email = "";
+      state.username = "";
+      state.firstName = "";
+      state.lastName = "";
+      state.gender = "";
+      state.image = "";
+      state.refreshToken = "";
+    },
   },
 });
-export const { login } = loginSlice.actions;
+export const { login, logout } = loginSlice.actions;
 export default loginSlice.reducer;

@@ -9,6 +9,8 @@ import NavBar from "./components/Navbar";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
 import Counter from "./pages/Counter";
+import NoPage from "./pages/NoPage";
+import Profile from "./components/Profile";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/count" element={<Counter />} />
+        <Route path="/user/profile/:name" element={<Profile />} />
+        <Route path="*" element={<NoPage />} />
       </Routes>
       <Toaster />
     </>
