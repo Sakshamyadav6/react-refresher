@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { errorToast } from "../services/toastify.service";
+import { errorToast, successToast } from "../services/toastify.service";
 import {
   Button,
   Container,
@@ -9,6 +9,7 @@ import {
   Image,
   Table,
 } from "react-bootstrap";
+import { deleteProd } from "../services/axios.service";
 
 const Admin = () => {
   const [product, setProduct] = useState(null);
@@ -24,7 +25,17 @@ const Admin = () => {
     }
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
+    //delete using api call
+    try {
+      const response = await deleteProd(`product/${id}`);
+      successToast("Deleted Sucessfully");
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+
+    // delete in state
     const fiteredprod = product.filter((result) => result.id !== id);
     setProduct(fiteredprod);
   };
@@ -67,7 +78,6 @@ const Admin = () => {
                   <p> No Products Found</p>
                 ) : (
                   <>
-                    {" "}
                     {product.map((prod) => {
                       return (
                         <>
