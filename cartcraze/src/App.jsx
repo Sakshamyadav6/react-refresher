@@ -11,6 +11,7 @@ import Cart from "./pages/Cart";
 import Counter from "./pages/Counter";
 import NoPage from "./pages/NoPage";
 import Profile from "./components/Profile";
+import Admin from "./pages/Admin";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/count" element={<Counter />} />
         <Route path="/user/profile/:name" element={<Profile />} />
+        <Route path="/admin/:name" element={<Admin />} />
         <Route path="*" element={<NoPage />} />
       </Routes>
       <Toaster />

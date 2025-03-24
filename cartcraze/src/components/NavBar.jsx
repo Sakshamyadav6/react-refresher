@@ -40,7 +40,7 @@ const NavBar = () => {
                   <Dropdown.Toggle variant="info">{username}</Dropdown.Toggle>
                   <Dropdown.Menu>
                     <Dropdown.Item href={`/user/profile/${username}`}>
-                      <i className="fa-solid fa-user"></i> Profile  
+                      <i className="fa-solid fa-user"></i> Profile
                     </Dropdown.Item>
                     <Dropdown.Item href="/cart">
                       <i className="fa-solid fa-cart-shopping"></i> Cart
@@ -51,14 +51,15 @@ const NavBar = () => {
                     <Dropdown.Item>
                       <i className="fa-solid fa-gear"></i> Settings
                     </Dropdown.Item>
+                    <Dropdown.Item href={`/admin/${username}`}>
+                      <i className="fa-solid fa-person"></i> Admin
+                    </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               </>
             ) : (
               <></>
             )}
-
-            {/* <Button onClick={handle}> click</Button> */}
           </Nav>
         </Container>
       </Navbar>

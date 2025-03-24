@@ -44,7 +44,7 @@ const Login = () => {
         };
         dispatch(login(data));
         successToast(`Welcome ${response.data.username}`);
-        // navigate("/product");
+        navigate("/product");
       } else {
         errorToast(response.data.message);
       }
