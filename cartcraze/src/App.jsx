@@ -12,6 +12,9 @@ import Counter from "./pages/Counter";
 import NoPage from "./pages/NoPage";
 import Profile from "./components/Profile";
 import Admin from "./pages/Admin";
+import Shipping from "./pages/Shipping";
+import Payment from "./pages/Payment";
+import PlaceOrder from "./pages/PlaceOrder";
 
 function App() {
   return (
@@ -26,6 +29,9 @@ function App() {
         <Route path="/count" element={<Counter />} />
         <Route path="/user/profile/:name" element={<Profile />} />
         <Route path="/admin/:name" element={<Admin />} />
+        <Route path="/order/shipping" element={<Shipping />} />
+        <Route path="/order/payment" element={<Payment />} />
+        <Route path="/order/placeorder" element={<PlaceOrder />} />
         <Route path="*" element={<NoPage />} />
       </Routes>
       <Toaster />

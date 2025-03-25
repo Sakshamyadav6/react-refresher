@@ -9,10 +9,11 @@ import {
   Row,
   Table,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const [cart, setCart] = useState(null);
+  const navigate = useNavigate();
 
   const getCart = async () => {
     try {
@@ -22,6 +23,9 @@ const Cart = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+  const handleCheckOut = () => {
+    navigate("/order/shipping");
   };
 
   useEffect(() => {
@@ -88,7 +92,11 @@ const Cart = () => {
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
-                  <Button variant="info" className="w-100">
+                  <Button
+                    variant="info"
+                    className="w-100"
+                    onClick={handleCheckOut}
+                  >
                     Check Out
                   </Button>
                 </ListGroup.Item>
