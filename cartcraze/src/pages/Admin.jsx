@@ -9,7 +9,7 @@ import {
   Image,
   Table,
 } from "react-bootstrap";
-import { deleteProd, updateProd } from "../services/axios.service";
+import { addProd, deleteProd, updateProd } from "../services/axios.service";
 import ProductModal from "../components/ProductModal";
 
 const Admin = () => {
@@ -81,27 +81,29 @@ const Admin = () => {
   const handleClose = () => {
     setOpenModal(false);
   };
-  const addProductHandle = (e) => {
+  const addProductHandle = async (e) => {
     e.preventDefault();
+    try {
+      const response = await addProd(`products/add`, prod);
+      console.log(response);
+      setProduct((prev) => [...prev, response.data]);
+      successToast("Product added sucessfully");
+    } catch (error) {
+      console.log(error);
+    }
     setOpenModal(false);
   };
   const editProductHandle = async (e) => {
     e.preventDefault();
-    fetch("https://dummyjson.com/products/1", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title: "Updated Title" }),
-    })
-      .then((res) => res.json())
-      .then(console.log)
-      .catch(console.error);
 
-    // try {
-    //   const response = await updateProd(`products/${editId}`, prod);
-    //   console.log(response);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const response = await updateProd(`products/${editId}`, prod);
+      console.log(response);
+      successToast("Product Editted Sucessfully");
+      setProd("");
+    } catch (error) {
+      console.log(error);
+    }
     setOpenModal(false);
   };
   const handleOnChange = (e) => {

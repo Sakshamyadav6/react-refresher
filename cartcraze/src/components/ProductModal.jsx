@@ -96,7 +96,14 @@ const ProductModal = ({
             </Row>
             <Row>
               <Col md={12}>
-                <Form.Control type="file" className="mt-2" />
+                <Form.Control
+                  type="text"
+                  className="mt-2"
+                  value={prod.thumbnail}
+                  placeholder="Enter Image url"
+                  onChange={handleOnChange}
+                  name="thumbnail"
+                />
               </Col>
             </Row>
           </Form>
