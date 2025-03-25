@@ -9,3 +9,13 @@ export const deleteProd = async (url) => {
     errorToast(error.message);
   }
 };
+export const updateProd = async (url, prod) => {
+  try {
+    const response = await axios.patch(`https://dummyjson.com/${url}`, prod, {
+      headers: { "Content-Type": "application/json" },
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};

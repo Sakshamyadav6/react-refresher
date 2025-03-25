@@ -9,10 +9,29 @@ import {
   Image,
   Table,
 } from "react-bootstrap";
-import { deleteProd } from "../services/axios.service";
+import { deleteProd, updateProd } from "../services/axios.service";
+import ProductModal from "../components/ProductModal";
 
 const Admin = () => {
   const [product, setProduct] = useState(null);
+
+  const [prod, setProd] = useState({
+    title: "",
+    brand: "",
+    price: "",
+    stock: "",
+    description: "",
+    thumbnail: "",
+  });
+  //   const [title, setTitle] = useState("");
+  //   const [brand, setBrand] = useState("");
+  //   const [price, setPrice] = useState("");
+  //   const [stock, setStock] = useState("");
+  //   const [desc, setDesc] = useState("");
+
+  const [openModal, setOpenModal] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [editId, setEditId] = useState("");
 
   const getProduct = async () => {
     try {
@@ -39,8 +58,56 @@ const Admin = () => {
     const fiteredprod = product.filter((result) => result.id !== id);
     setProduct(fiteredprod);
   };
-  const handleEdit = (e) => {
-    e.preventDefault;
+  const handleEdit = (product) => {
+    // e.preventDefault;
+    setOpenModal(true);
+    setIsEdit(true);
+    console.log(product);
+    setProd(product);
+    setEditId(product.id);
+    // setTitle(product.title);
+    // setBrand(product.brand);
+    // setPrice(product.price);
+    // setStock(product.stock);
+    // setDesc(product.description);
+  };
+
+  const handleAdd = (e) => {
+    e.preventDefault();
+    setIsEdit(false);
+    setOpenModal(true);
+  };
+
+  const handleClose = () => {
+    setOpenModal(false);
+  };
+  const addProductHandle = (e) => {
+    e.preventDefault();
+    setOpenModal(false);
+  };
+  const editProductHandle = async (e) => {
+    e.preventDefault();
+    fetch("https://dummyjson.com/products/1", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title: "Updated Title" }),
+    })
+      .then((res) => res.json())
+      .then(console.log)
+      .catch(console.error);
+
+    // try {
+    //   const response = await updateProd(`products/${editId}`, prod);
+    //   console.log(response);
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    setOpenModal(false);
+  };
+  const handleOnChange = (e) => {
+    setProd((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
   };
 
   useEffect(() => {
@@ -61,10 +128,15 @@ const Admin = () => {
                 <Form.Control type="text" placeholder="Search Products" />
               </FloatingLabel>
             </div>
+            <Button variant="info" className="ms-2" onClick={handleAdd}>
+              Add Products
+            </Button>
+
             <Container>
               <Table striped bordered hover className="mt-2">
                 <thead className="fw-bold">
                   <tr>
+                    <td>Id</td>
                     <td>Image</td>
                     <td>Title</td>
                     <td>Qty</td>
@@ -83,6 +155,7 @@ const Admin = () => {
                         <>
                           <tbody key={prod.id}>
                             <tr>
+                              <td>{prod.id}</td>
                               <td>
                                 <Image
                                   src={prod.thumbnail}
@@ -102,6 +175,7 @@ const Admin = () => {
                                   variant="warning"
                                   className="ms-1 me-1 mt-1"
                                   onClick={() => {
+                                    // console.log(prod)
                                     handleEdit(prod);
                                   }}
                                 >
@@ -127,6 +201,15 @@ const Admin = () => {
               </Table>
             </Container>
           </div>
+          <ProductModal
+            openModal={openModal}
+            handleClose={handleClose}
+            isEdit={isEdit}
+            addProductHandle={addProductHandle}
+            editProductHandle={editProductHandle}
+            prod={prod}
+            handleOnChange={handleOnChange}
+          />
         </>
       ) : (
         <>
