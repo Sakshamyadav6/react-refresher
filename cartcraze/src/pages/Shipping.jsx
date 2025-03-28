@@ -1,12 +1,20 @@
 import React from "react";
-import { Container } from "react-bootstrap";
+import { Col, Container, Form, Row } from "react-bootstrap";
 import CheckoutSteps from "../components/CheckoutSteps";
 
 const Shipping = () => {
   return (
     <>
       <Container>
-        <CheckoutSteps step1 />
+        <Row className="justify-content-center">
+          <Col xs={12} md={8}>
+            <CheckoutSteps step1 />
+            <Form>
+              <Form.Control type="text" />
+              <Form.Control type="text" />
+            </Form>
+          </Col>
+        </Row>
       </Container>
     </>
   );
