@@ -1,12 +1,69 @@
-import React from "react";
-import { Container } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import CheckoutSteps from "../components/CheckoutSteps";
 
 const Payment = () => {
+  const [isCard, setIsCard] = useState(false);
+
+  const handleChange = (e) => {
+    console.log(e.target.value);
+    if (e.target.value == "credit" || e.target.value == "debit") {
+      setIsCard(true);
+    } else {
+      setIsCard(false);
+    }
+  };
   return (
     <>
       <Container>
-        <CheckoutSteps step2 />
+        <Row className="justify-content-center">
+          <Col md={8} xs={12}>
+            <CheckoutSteps step2 />
+            <Form>
+              <Row>
+                <Col md={12} xs={12}>
+                  <select className="form-select" onChange={handleChange}>
+                    <option value="">Select Payment Method</option>
+                    <option value="credit">Credit Card</option>
+                    <option value="debit">Debit Card</option>
+                    <option value="cod">Cash On Delivery</option>
+                  </select>
+                </Col>
+              </Row>
+              {isCard ? (
+                <>
+                  <Row>
+                    <Col md={6} xs={12}>
+                      <Form.Control
+                        type="number"
+                        className="mt-2"
+                        placeholder="XXXX-XXXX-XXXX-XXXX"
+                      />
+                    </Col>
+                  </Row>
+                </>
+              ) : (
+                <></>
+              )}
+              <Row>
+                <Col xs={12}>
+                  <Button
+                    variant="info"
+                    className="w-25 m-1"
+                    onClick={() => {
+                      console.log(isCard);
+                    }}
+                  >
+                    Next
+                  </Button>
+                  <Button variant="secondary" className="w-25 m-1">
+                    Back
+                  </Button>
+                </Col>
+              </Row>
+            </Form>
+          </Col>
+        </Row>
       </Container>
     </>
   );
