@@ -1,12 +1,16 @@
 import React from "react";
-import { Container } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import CheckoutSteps from "../components/CheckoutSteps";
 
 const PlaceOrder = () => {
   return (
     <>
       <Container>
-        <CheckoutSteps step3 />
+        <Row className="justify-content-center">
+          <Col md={8} xs={12}>
+            <CheckoutSteps step3 />
+          </Col>
+        </Row>
       </Container>
     </>
   );
