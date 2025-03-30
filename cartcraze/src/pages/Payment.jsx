@@ -86,6 +86,7 @@ const Payment = () => {
                       <Form.Control
                         className="mt-2"
                         placeholder="CVV"
+                        type="password"
                         value={cardCVV}
                         onChange={(e) => {
                           setCardCVV(e.target.value);

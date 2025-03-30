@@ -1,11 +1,55 @@
 import React, { useEffect } from "react";
-import { Col, Container, Image, ListGroup, Row } from "react-bootstrap";
+import { Button, Col, Container, Image, ListGroup, Row } from "react-bootstrap";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import jsPdf from "jspdf";
 
 const PlaceOrder = () => {
   const data = useSelector((state) => state.order);
   const user = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  const handleBuy = (e) => {
+    e.preventDefault();
+    const doc = new jsPdf();
+    let y = 10;
+    doc.text("Order Details", 100, y);
+    y += 10;
+
+    const userDetails = [
+      `Name: ${user.firstName} ${user.lastName}`,
+      `Email: ${user.email}`,
+      "Shipping Address",
+      `Street Address: ${data.shippingAddress.address}`,
+      `Building: ${data.shippingAddress.building}`,
+      `City: ${data.shippingAddress.city}`,
+      `Country: ${data.shippingAddress.country}`,
+      `Payment Method: ${data.paymentMethod}`,
+    ];
+    userDetails.forEach((text) => {
+      doc.text(text, 10, y);
+      y += 10;
+    });
+
+    // doc.text(`Name: ${user.firstName} ${user.lastName}`, 10, 20);
+    // doc.text(`Email: ${user.email}`, 10, 30);
+    // doc.text("Shipping Address", 10, 40);
+    // doc.text(`Street Address: ${data.shippingAddress.address}`, 10, 50);
+    // doc.text(`Building : ${data.shippingAddress.building}`, 10, 60);
+    // doc.text(`City : ${data.shippingAddress.city}`, 10, 70);
+    // doc.text(`Country : ${data.shippingAddress.country}`, 10, 80);
+    // doc.text(`Payment Method : ${data.paymentMethod}`, 10, 90);
+
+    data.cart.products.forEach((order, index) => {
+      doc.text(
+        `${index + 1}. ${order.title} - ${order.price}`,
+        10,
+        105 + index * 10
+      );
+    });
+    doc.save("order-details.pdf");
+  };
   useEffect(() => {
     console.log(data);
     console.log(user);
@@ -53,7 +97,7 @@ const PlaceOrder = () => {
             </Row>
             <Row>
               <Col md={6}>
-                <ListGroup>
+                <ListGroup variant="flush">
                   <ListGroup.Item className="list-group-item-warning">
                     Cart
                   </ListGroup.Item>
@@ -85,7 +129,66 @@ const PlaceOrder = () => {
                   })}
                 </ListGroup>
               </Col>
-              <Col>
+              <Col md={6}>
+                <Row>
+                  <Col>
+                    <ListGroup variant="flush">
+                      <ListGroup.Item className="list-group-item-danger">
+                        Payment Method: {data.paymentMethod}
+                      </ListGroup.Item>
+                      {data.paymentMethod === "credit" ||
+                      data.paymentMethod === "debit" ? (
+                        <>
+                          <ListGroup.Item>
+                            Card Number: {data.cardDetails.number}
+                          </ListGroup.Item>
+                          <ListGroup.Item>
+                            Name: {data.cardDetails.name}
+                          </ListGroup.Item>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </ListGroup>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <ListGroup className="mt-2 fs-5" variant="flush">
+                      <ListGroup.Item className="list-group-item-primary fw-bold">
+                        Order Summary
+                      </ListGroup.Item>
+                      <ListGroup.Item>Total: ${data.cart.total}</ListGroup.Item>
+                      <ListGroup.Item>
+                        Total Products {data.cart.totalProducts}
+                      </ListGroup.Item>
+
+                      <ListGroup.Item>
+                        Total Quantity: {data.cart.totalQuantity}
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        <Button
+                          className="w-100"
+                          variant="info"
+                          onClick={handleBuy}
+                        >
+                          Buy Now
+                        </Button>
+                      </ListGroup.Item>
+                      <ListGroup.Item>
+                        <Button
+                          className="w-100"
+                          variant="secondary"
+                          onClick={() => {
+                            navigate("/order/payment");
+                          }}
+                        >
+                          Back
+                        </Button>
+                      </ListGroup.Item>
+                    </ListGroup>
+                  </Col>
+                </Row>
               </Col>
             </Row>
           </Col>
