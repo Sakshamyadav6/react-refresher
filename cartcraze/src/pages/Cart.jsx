@@ -9,11 +9,15 @@ import {
   Row,
   Table,
 } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { addCart } from "../slice/orderSlice";
+import { errorToast } from "../services/toastify.service";
 
 const Cart = () => {
   const [cart, setCart] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const getCart = async () => {
     try {
@@ -25,6 +29,11 @@ const Cart = () => {
     }
   };
   const handleCheckOut = () => {
+    try {
+      dispatch(addCart(cart));
+    } catch (error) {
+      errorToast("Cart is Empty");
+    }
     navigate("/order/shipping");
   };
 
