@@ -12,43 +12,56 @@ const PlaceOrder = () => {
 
   const handleBuy = (e) => {
     e.preventDefault();
-    const doc = new jsPdf();
-    let y = 10;
-    doc.text("Order Details", 100, y);
-    y += 10;
+    navigate(`/order/confirmation/success/${user.username}/${data.cart.id}`);
+    // const doc = new jsPdf();
+    // let y = 10;
+    // doc.text("Order Details", 100, y);
+    // y += 10;
 
-    const userDetails = [
-      `Name: ${user.firstName} ${user.lastName}`,
-      `Email: ${user.email}`,
-      "Shipping Address",
-      `Street Address: ${data.shippingAddress.address}`,
-      `Building: ${data.shippingAddress.building}`,
-      `City: ${data.shippingAddress.city}`,
-      `Country: ${data.shippingAddress.country}`,
-      `Payment Method: ${data.paymentMethod}`,
-    ];
-    userDetails.forEach((text) => {
-      doc.text(text, 10, y);
-      y += 10;
-    });
+    // const userDetails = [
+    //   `Name: ${user.firstName} ${user.lastName}`,
+    //   `Email: ${user.email}`,
+    //   "Shipping Address",
+    //   `Street Address: ${data.shippingAddress.address}`,
+    //   `Building: ${data.shippingAddress.building}`,
+    //   `City: ${data.shippingAddress.city}`,
+    //   `Country: ${data.shippingAddress.country}`,
+    //   `Payment Method: ${data.paymentMethod}`,
+    // ];
+    // userDetails.forEach((text) => {
+    //   doc.text(text, 10, y);
+    //   y += 10;
+    // });
+    // if (data.paymentMethod === "credit" || data.paymentMethod === "debit") {
+    //   const cardDetails = [
+    //     `Card Name: ${data.cardDetails.name}`,
+    //     `Card Number: ${data.cardDetails.number}`,
+    //   ];
+    //   cardDetails.forEach((card) => {
+    //     doc.text(card, 10, y);
+    //     y += 10;
+    //   });
+    // } else {
+    // }
 
-    // doc.text(`Name: ${user.firstName} ${user.lastName}`, 10, 20);
-    // doc.text(`Email: ${user.email}`, 10, 30);
-    // doc.text("Shipping Address", 10, 40);
-    // doc.text(`Street Address: ${data.shippingAddress.address}`, 10, 50);
-    // doc.text(`Building : ${data.shippingAddress.building}`, 10, 60);
-    // doc.text(`City : ${data.shippingAddress.city}`, 10, 70);
-    // doc.text(`Country : ${data.shippingAddress.country}`, 10, 80);
-    // doc.text(`Payment Method : ${data.paymentMethod}`, 10, 90);
-
-    data.cart.products.forEach((order, index) => {
-      doc.text(
-        `${index + 1}. ${order.title} - ${order.price}`,
-        10,
-        105 + index * 10
-      );
-    });
-    doc.save("order-details.pdf");
+    // data.cart.products.forEach((order, index) => {
+    //   doc.text(
+    //     `${index + 1}. ${order.title} - ${order.price}`,
+    //     10,
+    //     y + index * 25
+    //   );
+    //   const imgHeight = 20;
+    //   const imgWidth = 20;
+    //   doc.addImage(
+    //     order.thumbnail,
+    //     "PNG",
+    //     10,
+    //     y + index * 25,
+    //     imgWidth,
+    //     imgHeight
+    //   );
+    // });
+    // doc.save("order-details.pdf");
   };
   useEffect(() => {
     console.log(data);

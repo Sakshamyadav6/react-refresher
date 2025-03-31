@@ -15,6 +15,7 @@ import Admin from "./pages/Admin";
 import Shipping from "./pages/Shipping";
 import Payment from "./pages/Payment";
 import PlaceOrder from "./pages/PlaceOrder";
+import Confirm from "./pages/Confirm";
 
 function App() {
   return (
@@ -32,6 +33,10 @@ function App() {
         <Route path="/order/shipping" element={<Shipping />} />
         <Route path="/order/payment" element={<Payment />} />
         <Route path="/order/placeorder" element={<PlaceOrder />} />
+        <Route
+          path="/order/confirmation/success/:username/:id"
+          element={<Confirm />}
+        />
         <Route path="*" element={<NoPage />} />
       </Routes>
       <Toaster />
