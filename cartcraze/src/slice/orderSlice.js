@@ -5,7 +5,7 @@ const initialState = {
     shippingAddress: {},
     paymentMethod: [],
     cardDetails: {},
-    cart: {},
+    cart: [],
   },
 };
 export const orderSlice = createSlice({
@@ -13,7 +13,16 @@ export const orderSlice = createSlice({
   initialState,
   reducers: {
     addCart: (state, data) => {
-      state.cart = data.payload;
+      const item = data.payload;
+
+      const existItem = state.order.cart.find((x) => x.id === item.id);
+      if (existItem) {
+        state.order.cart = state.order.cart.map((x) =>
+          x.id === item.id ? item : x
+        );
+      } else {
+        state.order.cart = [...state.order.cart, item];
+      }
     },
     addShippingAddress: (state, data) => {
       state.shippingAddress = data.payload;

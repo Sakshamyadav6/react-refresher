@@ -5,13 +5,15 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const PlaceOrder = () => {
-  const data = useSelector((state) => state.order);
   const user = useSelector((state) => state.auth);
+  const data = useSelector((state) => state.order);
   const navigate = useNavigate();
 
   const handleBuy = (e) => {
     e.preventDefault();
-    navigate(`/order/confirmation/success/${user.username}/${data.cart.id}`);
+    navigate(
+      `/order/confirmation/success/${user.username}/${user.accessToken}`
+    );
   };
   useEffect(() => {
     console.log(data);
@@ -64,28 +66,27 @@ const PlaceOrder = () => {
                   <ListGroup.Item className="list-group-item-warning">
                     Cart
                   </ListGroup.Item>
-                  {data.cart.products.map((cartProd) => {
+                  {data.cart.map((cartProd) => {
                     return (
                       <>
                         <ListGroup.Item key={cartProd.id}>
                           <Image
-                            src={cartProd.thumbnail}
+                            src={cartProd.thummbnail}
                             height={70}
                             width={100}
                           />
                         </ListGroup.Item>
                         <ListGroup.Item>Title: {cartProd.title}</ListGroup.Item>
                         <ListGroup.Item>
-                          Quantity: {cartProd.quantity}
+                          Quantity: {cartProd.qty}
                         </ListGroup.Item>
-                        <ListGroup.Item>
-                          Discount: {cartProd.discountPercentage}%
-                        </ListGroup.Item>
+
                         <ListGroup.Item>
                           Price: ${cartProd.price}
                         </ListGroup.Item>
                         <ListGroup.Item>
-                          After Discount: ${cartProd.discountedTotal}
+                          Total Price: $
+                          {(cartProd.price * cartProd.qty).toFixed(1)}
                         </ListGroup.Item>
                       </>
                     );
@@ -124,15 +125,25 @@ const PlaceOrder = () => {
                       <ListGroup.Item>
                         Total:{" "}
                         <span className="text-danger fw-bold">
-                          ${data.cart.total}
+                          $
+                          {data.cart
+                            .reduce(
+                              (acc, item) => acc + item.price * item.qty,
+                              0
+                            )
+                            .toFixed(1)}
                         </span>
                       </ListGroup.Item>
                       <ListGroup.Item>
-                        Total Products {data.cart.totalProducts}
+                        Total Products {data.cart.length}
                       </ListGroup.Item>
 
                       <ListGroup.Item>
-                        Total Quantity: {data.cart.totalQuantity}
+                        Total Quantity:{" "}
+                        {data.cart.reduce(
+                          (acc, item) => acc + parseInt(item.qty),
+                          0
+                        )}
                       </ListGroup.Item>
                       <ListGroup.Item>
                         <Button

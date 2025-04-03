@@ -12,12 +12,15 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { successToast } from "../services/toastify.service";
 import Rating from "../components/Rating";
+import { useDispatch } from "react-redux";
+import { addCart } from "../slice/orderSlice";
 
 const ProductDetail = () => {
   const [prod, setProd] = useState(null);
   const { id } = useParams();
   const [quantiy, setQuantity] = useState(1);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const getProduct = async () => {
     try {
@@ -32,6 +35,14 @@ const ProductDetail = () => {
   };
   const handleAddtoCart = (prod, quantity) => {
     console.log(prod, quantity);
+    const data = {
+      id: prod.id,
+      title: prod.title,
+      price: prod.price,
+      thummbnail: prod.thumbnail,
+      qty: quantity,
+    };
+    dispatch(addCart(data));
     successToast(`${prod.title} Added to Cart`);
     navigate("/cart");
   };

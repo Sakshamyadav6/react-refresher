@@ -8,7 +8,7 @@ const Confirm = () => {
   const data = useSelector((state) => state.order);
   const user = useSelector((state) => state.auth);
 
-  useEffect(() => {
+  const handlePdf = () => {
     const doc = new jsPdf();
     let y = 10;
     doc.text("Order Details", 100, y);
@@ -40,16 +40,16 @@ const Confirm = () => {
     } else {
     }
 
-    data.cart.products.forEach((order, index) => {
+    data.cart.forEach((order, index) => {
       doc.text(
-        `${index + 1}. ${order.title} - ${order.price}`,
+        `${index + 1}. ${order.title} - $${order.price}`,
         10,
         y + index * 25
       );
       const imgHeight = 20;
       const imgWidth = 20;
       doc.addImage(
-        order.thumbnail,
+        order.thummbnail,
         "PNG",
         10,
         y + index * 25,
@@ -58,6 +58,10 @@ const Confirm = () => {
       );
     });
     doc.save("order-details.pdf");
+  };
+
+  useEffect(() => {
+    handlePdf();
   }, []);
   return (
     <Container className="d-flex vh-100! justify-content-center mt-5">

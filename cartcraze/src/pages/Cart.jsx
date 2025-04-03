@@ -9,7 +9,7 @@ import {
   Row,
   Table,
 } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { addCart } from "../slice/orderSlice";
 import { errorToast } from "../services/toastify.service";
@@ -18,19 +18,21 @@ const Cart = () => {
   const [cart, setCart] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const cartData = useSelector((state) => state.order.cart);
 
   const getCart = async () => {
     try {
       const response = await axios.get(import.meta.env.VITE_URL + "/carts/1");
       console.log(response);
       setCart(response.data);
+      console.log(cartData);
     } catch (error) {
       console.log(error);
     }
   };
   const handleCheckOut = () => {
     try {
-      dispatch(addCart(cart));
+      // dispatch(addCart(cart));
     } catch (error) {
       errorToast("Cart is Empty");
     }
@@ -54,23 +56,21 @@ const Cart = () => {
                     <th>Quantity</th>
                     <th>Price</th>
                     <th>Total</th>
-                    <th>Discounted Total</th>
                   </tr>
                 </thead>
 
-                {cart.products.map((cartProd) => {
+                {cartData.map((cartProd) => {
                   return (
                     <>
                       <tbody key={cartProd.id}>
                         <tr>
                           <td>
-                            <Image src={cartProd.thumbnail} height={100} />
+                            <Image src={cartProd.thummbnail} height={100} />
                           </td>
                           <td>{cartProd.title}</td>
-                          <td>{cartProd.quantity}</td>
+                          <td>{cartProd.qty}</td>
                           <td>${cartProd.price}</td>
-                          <td>${cartProd.total.toFixed(1)}</td>
-                          <td>${cartProd.discountedTotal}</td>
+                          <td>${(cartProd.price * cartProd.qty).toFixed(1)}</td>
                         </tr>
                       </tbody>
                     </>
@@ -83,20 +83,32 @@ const Cart = () => {
                 <ListGroup.Item>
                   <Row>
                     <Col>Total Quantity</Col>
-                    <Col>{cart.totalQuantity}</Col>
+                    {/* <Col>{cart.totalQuantity}</Col> */}
+                    <Col>
+                      {cartData.reduce(
+                        (acc, prod) => acc + parseInt(prod.qty),
+                        0
+                      )}{" "}
+                      items
+                    </Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
                     <Col>Total Products</Col>
-                    <Col>{cart.totalProducts}</Col>
+                    <Col>{cartData.length}</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
                     <Col>Total Amount</Col>
                     <Col>
-                      <span className="text-danger">${cart.total}</span>
+                      <span className="text-danger">
+                        $
+                        {cartData
+                          .reduce((acc, prod) => acc + prod.price * prod.qty, 0)
+                          .toFixed(1)}
+                      </span>
                     </Col>
                   </Row>
                 </ListGroup.Item>
